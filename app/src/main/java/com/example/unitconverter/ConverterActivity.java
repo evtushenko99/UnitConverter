@@ -35,7 +35,7 @@ public class ConverterActivity extends AppCompatActivity {
 
     private Spinner mSpinnerFrom;
     private Spinner mSpinnerTo;
-
+    private Converter mConverter;
     private Conversion mConversion;
     private List<Unit> mUnitList;
     private Unit mUnitFrom;
@@ -57,8 +57,11 @@ public class ConverterActivity extends AppCompatActivity {
         mGetNumber = new BigDecimal("0");
 
 
-        mConversion = (Conversion) getIntent().getExtras().getSerializable(ITEM_KEY);
-        mUnitList = mConversion.getUnitsList();
+        mConversion = (Conversion) getIntent().getSerializableExtra(ITEM_KEY);
+        if (mConversion != null)
+            mUnitList = mConversion.getUnitsList();
+
+
         mHeadLineTextView = findViewById(R.id.headline);
 
         initSpinners();
@@ -79,11 +82,11 @@ public class ConverterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().equals("")) {
+                if (s.length() != 0) {
                     mGetNumber = (new BigDecimal(s.toString()));
                     setConverter();
                 } else {
-                    mInputToEditText.setText(s.toString());
+                    mInputToEditText.setText("");
                 }
             }
         });
@@ -91,8 +94,8 @@ public class ConverterActivity extends AppCompatActivity {
     }
 
     private void setConverter() {
-        Converter converter = new Converter(mGetNumber, mUnitTo, mUnitFrom);
-        mInputToEditText.setText(converter.makeCalculation());
+        mConverter = new Converter(mGetNumber, mUnitTo, mUnitFrom);
+        mInputToEditText.setText(mConverter.makeCalculation());
     }
 
 

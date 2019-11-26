@@ -18,7 +18,7 @@ public class Converter {
     }
 
     public String makeCalculation() {
-        if (mNumber.compareTo(new BigDecimal("0")) > 0) {
+        if (mNumber.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal numberFrom = new BigDecimal(mUnitFrom);
             BigDecimal numberTo = new BigDecimal(mUnitTo);
 
