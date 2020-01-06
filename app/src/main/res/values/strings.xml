@@ -24,4 +24,5 @@
     <string name="unit_currency_euro">ЕВРО</string>
     <string name="unit_currency_pound">Фунт</string>
     <string name="unit_currency_ruble">Рубль</string>
+    <string name="empty_fragment">You must choose anything</string>
 </resources>

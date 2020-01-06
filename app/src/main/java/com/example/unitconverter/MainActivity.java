@@ -1,18 +1,11 @@
 
 package com.example.unitconverter;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.unitconverter.adapters.UnitsAdapter;
-import com.example.unitconverter.models.Conversion;
-
-import java.util.Arrays;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,22 +14,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initRecyclerView(savedInstanceState == null);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragmentList = fragmentManager.findFragmentById(R.id.fragment_host_list);
+        Fragment fragmentConverter = fragmentManager.findFragmentById(R.id.fragment_host_converter);
+        if (fragmentList == null && fragmentConverter == null) {
+            fragmentList = new ListFragment();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_host_list, fragmentList)
+                    .add(R.id.fragment_host_converter, ConverterFragment.newInstance(null))
+                    .commit();
+        }
     }
 
-    private void initRecyclerView(boolean isFirstCreate) {
-        RecyclerView recyclerView = findViewById(R.id.recycler);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setAdapter(new UnitsAdapter(Arrays.asList(Conversion.values()), new ItemClickListener() {
-            @Override
-            public void onItemClickListener(Conversion conversion) {
-                Intent intent = ConverterActivity.getStartedIntent(MainActivity.this, conversion);
-                startActivity(intent);
-            }
-        }));
-    }
 
 }
