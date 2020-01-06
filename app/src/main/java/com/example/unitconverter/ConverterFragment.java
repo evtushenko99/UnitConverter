@@ -60,6 +60,8 @@ public class ConverterFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mConversion = null;
+        mUnitTo = null;
+        mUnitFrom = null;
     }
 
     @Nullable
@@ -73,7 +75,7 @@ public class ConverterFragment extends Fragment {
         }
         if (savedInstanceState != null) {
             mUnitFrom = (Unit) savedInstanceState.getSerializable(UNITFROM);
-            mUnitTo = (Unit) savedInstanceState.getSerializable(UNITFROM);
+            mUnitTo = (Unit) savedInstanceState.getSerializable(UNITTO);
         }
 
         if (mConversion != null) {
@@ -104,8 +106,8 @@ public class ConverterFragment extends Fragment {
                         TextView textView = view.findViewById(R.id.spinner_text_view);
                         mHelpTextFrom.setHint(textView.getText());
                     }
-                    if (mUnitFrom == null)
-                        mUnitFrom = mUnitList.get(position);
+
+                    mUnitFrom = mUnitList.get(position);
                     if (mUnitTo != null)
                         setConverter();
 
@@ -123,7 +125,7 @@ public class ConverterFragment extends Fragment {
                         TextView textView = view.findViewById(R.id.spinner_text_view);
                         mHelpTextTo.setHint(textView.getText());
                     }
-                    if (mUnitTo == null)
+
                     mUnitTo = mUnitList.get(position);
                     if (mUnitFrom != null)
                         setConverter();
